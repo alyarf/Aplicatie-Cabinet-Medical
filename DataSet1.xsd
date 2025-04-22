@@ -1,0 +1,430 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSet1" targetNamespace="http://tempuri.org/DataSet1.xsd" xmlns:mstns="http://tempuri.org/DataSet1.xsd" xmlns="http://tempuri.org/DataSet1.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BDConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BDConnectionString (Settings)" PropertyReference="ApplicationSettings.Proiect.Properties.Settings.GlobalReference.Default.BDConnectionString" Provider="System.Data.OleDb" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="PacientiTableAdapter" GeneratorDataComponentClassName="PacientiTableAdapter" Name="Pacienti" UserDataComponentName="PacientiTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BDConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Pacienti.IDPacient, Pacienti.NumePacient, Pacienti.CNP, Pacienti.NrTelefon, Pacienti.Adresa, Alergii.Alergen
+FROM     (Pacienti LEFT OUTER JOIN
+                  Alergii ON Pacienti.IdAlergie = Alergii.IdAlergie)</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="NumePacient" DataSetColumn="NumePacient" />
+              <Mapping SourceColumn="CNP" DataSetColumn="CNP" />
+              <Mapping SourceColumn="NrTelefon" DataSetColumn="NrTelefon" />
+              <Mapping SourceColumn="Adresa" DataSetColumn="Adresa" />
+              <Mapping SourceColumn="IDPacient" DataSetColumn="IdPacient" />
+              <Mapping SourceColumn="Alergen" DataSetColumn="Alergen" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="ReteteTableAdapter" GeneratorDataComponentClassName="ReteteTableAdapter" Name="Retete" UserDataComponentName="ReteteTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BDConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Retete.IdReteta, Retete.NrReteta, Retete.IdPacient, Retete.DataEmiterii, Retete.Diagnostic, Pacienti.NumePacient, SUM(RetetaContinut.PretVanzare * RetetaContinut.Cantitate) AS Total
+FROM     ((Pacienti RIGHT OUTER JOIN
+                  Retete ON Pacienti.IDPacient = Retete.IdPacient) LEFT OUTER JOIN
+                  RetetaContinut ON Retete.IdReteta = RetetaContinut.IdReteta)
+GROUP BY Retete.IdReteta, Retete.NrReteta, Retete.IdPacient, Retete.DataEmiterii, Retete.Diagnostic, Pacienti.NumePacient
+ORDER BY Retete.DataEmiterii DESC</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="IdReteta" DataSetColumn="IdReteta" />
+              <Mapping SourceColumn="IdPacient" DataSetColumn="IdPacient" />
+              <Mapping SourceColumn="DataEmiterii" DataSetColumn="DataEmiterii" />
+              <Mapping SourceColumn="Diagnostic" DataSetColumn="Diagnostic" />
+              <Mapping SourceColumn="NumePacient" DataSetColumn="NumePacient" />
+              <Mapping SourceColumn="Total" DataSetColumn="Total" />
+              <Mapping SourceColumn="NrReteta" DataSetColumn="NrReteta" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="RetetaContinutTableAdapter" GeneratorDataComponentClassName="RetetaContinutTableAdapter" Name="RetetaContinut" UserDataComponentName="RetetaContinutTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BDConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT RetetaContinut.IdReteta, RetetaContinut.CrtMed, RetetaContinut.IdMedicament, RetetaContinut.Cantitate, Medicamente.Denumire AS DMedicament, Medicamente.UM, RetetaContinut.PretVanzare
+FROM     (RetetaContinut LEFT OUTER JOIN
+                  Medicamente ON RetetaContinut.IdMedicament = Medicamente.IDMedicament)</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="IdReteta" DataSetColumn="IdReteta" />
+              <Mapping SourceColumn="IdMedicament" DataSetColumn="IdMedicament" />
+              <Mapping SourceColumn="PretVanzare" DataSetColumn="PretVanzare" />
+              <Mapping SourceColumn="Cantitate" DataSetColumn="Cantitate" />
+              <Mapping SourceColumn="UM" DataSetColumn="UM" />
+              <Mapping SourceColumn="DMedicament" DataSetColumn="DMedicament" />
+              <Mapping SourceColumn="CrtMed" DataSetColumn="CrtMed" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="IstoricTableAdapter" GeneratorDataComponentClassName="IstoricTableAdapter" Name="Istoric" UserDataComponentName="IstoricTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BDConnectionString (Settings)" DbObjectType="Unknown" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="false" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Pacienti.NumePacient, Istoric.NumeBoala, Istoric.DataDiagnostic
+FROM     (Pacienti INNER JOIN
+                  Istoric ON Pacienti.IDPacient = Istoric.IdPacient)</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="NumePacient" DataSetColumn="NumePacient" />
+              <Mapping SourceColumn="NumeBoala" DataSetColumn="NumeBoala" />
+              <Mapping SourceColumn="DataDiagnostic" DataSetColumn="DataDiagnostic" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="AlergiiTableAdapter" GeneratorDataComponentClassName="AlergiiTableAdapter" Name="Alergii" UserDataComponentName="AlergiiTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BDConnectionString (Settings)" DbObjectName="Alergii" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM `Alergii` WHERE ((`IdAlergie` = ?) AND ((? = 1 AND `Alergen` IS NULL) OR (`Alergen` = ?)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="Original_IdAlergie" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="IdAlergie" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_Alergen" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="Alergen" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_Alergen" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="Alergen" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO `Alergii` (`Alergen`) VALUES (?)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Alergen" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="Alergen" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT IdAlergie, Alergen
+FROM     Alergii</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE `Alergii` SET `Alergen` = ? WHERE ((`IdAlergie` = ?) AND ((? = 1 AND `Alergen` IS NULL) OR (`Alergen` = ?)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Alergen" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="Alergen" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="Original_IdAlergie" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="IdAlergie" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_Alergen" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="Alergen" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_Alergen" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="Alergen" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="IdAlergie" DataSetColumn="IdAlergie" />
+              <Mapping SourceColumn="Alergen" DataSetColumn="Alergen" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="MedicamenteTableAdapter" GeneratorDataComponentClassName="MedicamenteTableAdapter" Name="Medicamente" UserDataComponentName="MedicamenteTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BDConnectionString (Settings)" DbObjectName="Medicamente" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM `Medicamente` WHERE ((`IDMedicament` = ?) AND ((? = 1 AND `Denumire` IS NULL) OR (`Denumire` = ?)) AND ((? = 1 AND `UM` IS NULL) OR (`UM` = ?)) AND ((? = 1 AND `Pret` IS NULL) OR (`Pret` = ?)) AND ((? = 1 AND `SpPoza` IS NULL) OR (`SpPoza` = ?)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="Original_IDMedicament" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="IDMedicament" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_Denumire" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="Denumire" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_Denumire" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="Denumire" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_UM" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="UM" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_UM" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="UM" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_Pret" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="Pret" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="Original_Pret" Precision="18" ProviderType="Numeric" Scale="0" Size="0" SourceColumn="Pret" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_SpPoza" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="SpPoza" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_SpPoza" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="SpPoza" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO `Medicamente` (`Denumire`, `UM`, `Pret`, `SpPoza`) VALUES (?, ?, ?, ?)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Denumire" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="Denumire" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="UM" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="UM" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="Pret" Precision="18" ProviderType="Numeric" Scale="0" Size="0" SourceColumn="Pret" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="SpPoza" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="SpPoza" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT Medicamente.*
+FROM     Medicamente</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE `Medicamente` SET `Denumire` = ?, `UM` = ?, `Pret` = ?, `SpPoza` = ? WHERE ((`IDMedicament` = ?) AND ((? = 1 AND `Denumire` IS NULL) OR (`Denumire` = ?)) AND ((? = 1 AND `UM` IS NULL) OR (`UM` = ?)) AND ((? = 1 AND `Pret` IS NULL) OR (`Pret` = ?)) AND ((? = 1 AND `SpPoza` IS NULL) OR (`SpPoza` = ?)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Denumire" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="Denumire" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="UM" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="UM" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="Pret" Precision="18" ProviderType="Numeric" Scale="0" Size="0" SourceColumn="Pret" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="SpPoza" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="SpPoza" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="Original_IDMedicament" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="IDMedicament" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_Denumire" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="Denumire" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_Denumire" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="Denumire" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_UM" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="UM" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_UM" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="UM" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_Pret" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="Pret" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="Original_Pret" Precision="18" ProviderType="Numeric" Scale="0" Size="0" SourceColumn="Pret" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="IsNull_SpPoza" Precision="0" ProviderType="Integer" Scale="0" Size="0" SourceColumn="SpPoza" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="Original_SpPoza" Precision="0" ProviderType="VarWChar" Scale="0" Size="0" SourceColumn="SpPoza" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="IDMedicament" DataSetColumn="IDMedicament" />
+              <Mapping SourceColumn="Denumire" DataSetColumn="Denumire" />
+              <Mapping SourceColumn="UM" DataSetColumn="UM" />
+              <Mapping SourceColumn="Pret" DataSetColumn="Pret" />
+              <Mapping SourceColumn="SpPoza" DataSetColumn="SpPoza" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSet1" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DataSet1" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="DataSet1">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="Pacienti" msprop:Generator_RowEvHandlerName="PacientiRowChangeEventHandler" msprop:Generator_RowDeletedName="PacientiRowDeleted" msprop:Generator_RowDeletingName="PacientiRowDeleting" msprop:Generator_RowEvArgName="PacientiRowChangeEvent" msprop:Generator_TablePropName="Pacienti" msprop:Generator_RowChangedName="PacientiRowChanged" msprop:Generator_UserTableName="Pacienti" msprop:Generator_RowChangingName="PacientiRowChanging" msprop:Generator_RowClassName="PacientiRow" msprop:Generator_TableClassName="PacientiDataTable" msprop:Generator_TableVarName="tablePacienti">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NumePacient" msprop:Generator_ColumnPropNameInTable="NumePacientColumn" msprop:Generator_ColumnPropNameInRow="NumePacient" msprop:Generator_UserColumnName="NumePacient" msprop:Generator_ColumnVarNameInTable="columnNumePacient" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CNP" msprop:Generator_ColumnPropNameInTable="CNPColumn" msprop:Generator_ColumnPropNameInRow="CNP" msprop:Generator_UserColumnName="CNP" msprop:Generator_ColumnVarNameInTable="columnCNP" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NrTelefon" msprop:Generator_ColumnPropNameInTable="NrTelefonColumn" msprop:Generator_ColumnPropNameInRow="NrTelefon" msprop:Generator_UserColumnName="NrTelefon" msprop:Generator_ColumnVarNameInTable="columnNrTelefon" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Adresa" msprop:Generator_ColumnPropNameInTable="AdresaColumn" msprop:Generator_ColumnPropNameInRow="Adresa" msprop:Generator_UserColumnName="Adresa" msprop:Generator_ColumnVarNameInTable="columnAdresa" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="IdPacient" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnPropNameInTable="IdPacientColumn" msprop:Generator_ColumnPropNameInRow="IdPacient" msprop:Generator_UserColumnName="IdPacient" msprop:Generator_ColumnVarNameInTable="columnIdPacient" type="xs:int" minOccurs="0" />
+              <xs:element name="Alergen" msprop:Generator_ColumnPropNameInTable="AlergenColumn" msprop:Generator_ColumnPropNameInRow="Alergen" msprop:Generator_UserColumnName="Alergen" msprop:Generator_ColumnVarNameInTable="columnAlergen" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Retete" msprop:Generator_RowEvHandlerName="ReteteRowChangeEventHandler" msprop:Generator_RowDeletedName="ReteteRowDeleted" msprop:Generator_RowDeletingName="ReteteRowDeleting" msprop:Generator_RowEvArgName="ReteteRowChangeEvent" msprop:Generator_TablePropName="Retete" msprop:Generator_RowChangedName="ReteteRowChanged" msprop:Generator_UserTableName="Retete" msprop:Generator_RowChangingName="ReteteRowChanging" msprop:Generator_RowClassName="ReteteRow" msprop:Generator_TableClassName="ReteteDataTable" msprop:Generator_TableVarName="tableRetete">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IdReteta" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnPropNameInTable="IdRetetaColumn" msprop:Generator_ColumnPropNameInRow="IdReteta" msprop:Generator_UserColumnName="IdReteta" msprop:Generator_ColumnVarNameInTable="columnIdReteta" type="xs:int" />
+              <xs:element name="IdPacient" msprop:Generator_ColumnPropNameInTable="IdPacientColumn" msprop:Generator_ColumnPropNameInRow="IdPacient" msprop:Generator_UserColumnName="IdPacient" msprop:Generator_ColumnVarNameInTable="columnIdPacient" type="xs:int" minOccurs="0" />
+              <xs:element name="DataEmiterii" msprop:Generator_ColumnPropNameInTable="DataEmiteriiColumn" msprop:Generator_ColumnPropNameInRow="DataEmiterii" msprop:Generator_UserColumnName="DataEmiterii" msprop:Generator_ColumnVarNameInTable="columnDataEmiterii" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Diagnostic" msprop:Generator_ColumnPropNameInTable="DiagnosticColumn" msprop:Generator_ColumnPropNameInRow="Diagnostic" msprop:Generator_UserColumnName="Diagnostic" msprop:Generator_ColumnVarNameInTable="columnDiagnostic" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NumePacient" msprop:Generator_ColumnPropNameInTable="NumePacientColumn" msprop:Generator_ColumnPropNameInRow="NumePacient" msprop:Generator_UserColumnName="NumePacient" msprop:Generator_ColumnVarNameInTable="columnNumePacient" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Total" msprop:Generator_ColumnPropNameInTable="TotalColumn" msprop:Generator_ColumnPropNameInRow="Total" msprop:Generator_UserColumnName="Total" msprop:Generator_ColumnVarNameInTable="columnTotal" type="xs:decimal" minOccurs="0" />
+              <xs:element name="NrReteta" msprop:Generator_ColumnPropNameInTable="NrRetetaColumn" msprop:Generator_ColumnPropNameInRow="NrReteta" msprop:Generator_UserColumnName="NrReteta" msprop:Generator_ColumnVarNameInTable="columnNrReteta" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RetetaContinut" msprop:Generator_RowEvHandlerName="RetetaContinutRowChangeEventHandler" msprop:Generator_RowDeletedName="RetetaContinutRowDeleted" msprop:Generator_RowDeletingName="RetetaContinutRowDeleting" msprop:Generator_RowEvArgName="RetetaContinutRowChangeEvent" msprop:Generator_TablePropName="RetetaContinut" msprop:Generator_RowChangedName="RetetaContinutRowChanged" msprop:Generator_UserTableName="RetetaContinut" msprop:Generator_RowChangingName="RetetaContinutRowChanging" msprop:Generator_RowClassName="RetetaContinutRow" msprop:Generator_TableClassName="RetetaContinutDataTable" msprop:Generator_TableVarName="tableRetetaContinut">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IdReteta" msprop:Generator_ColumnPropNameInTable="IdRetetaColumn" msprop:Generator_ColumnPropNameInRow="IdReteta" msprop:Generator_UserColumnName="IdReteta" msprop:Generator_ColumnVarNameInTable="columnIdReteta" type="xs:int" />
+              <xs:element name="IdMedicament" msprop:Generator_ColumnPropNameInTable="IdMedicamentColumn" msprop:Generator_ColumnPropNameInRow="IdMedicament" msprop:Generator_UserColumnName="IdMedicament" msprop:Generator_ColumnVarNameInTable="columnIdMedicament" type="xs:int" minOccurs="0" />
+              <xs:element name="PretVanzare" msprop:Generator_ColumnPropNameInTable="PretVanzareColumn" msprop:Generator_ColumnPropNameInRow="PretVanzare" msprop:Generator_UserColumnName="PretVanzare" msprop:Generator_ColumnVarNameInTable="columnPretVanzare" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Cantitate" msprop:Generator_ColumnPropNameInTable="CantitateColumn" msprop:Generator_ColumnPropNameInRow="Cantitate" msprop:Generator_UserColumnName="Cantitate" msprop:Generator_ColumnVarNameInTable="columnCantitate" type="xs:int" minOccurs="0" />
+              <xs:element name="UM" msprop:Generator_ColumnPropNameInTable="UMColumn" msprop:Generator_ColumnPropNameInRow="UM" msprop:Generator_UserColumnName="UM" msprop:Generator_ColumnVarNameInTable="columnUM" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DMedicament" msprop:Generator_ColumnPropNameInTable="DMedicamentColumn" msprop:Generator_ColumnPropNameInRow="DMedicament" msprop:Generator_UserColumnName="DMedicament" msprop:Generator_ColumnVarNameInTable="columnDMedicament" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Valoare" msdata:ReadOnly="true" msdata:Expression="PretVanzare*Cantitate" msprop:Generator_ColumnPropNameInTable="ValoareColumn" msprop:Generator_ColumnPropNameInRow="Valoare" msprop:Generator_UserColumnName="Valoare" msprop:Generator_ColumnVarNameInTable="columnValoare" type="xs:decimal" minOccurs="0" />
+              <xs:element name="CrtMed" msprop:Generator_ColumnPropNameInTable="CrtMedColumn" msprop:Generator_ColumnPropNameInRow="CrtMed" msprop:Generator_UserColumnName="CrtMed" msprop:Generator_ColumnVarNameInTable="columnCrtMed" type="xs:int" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="RetetaContinutManevra" msprop:Generator_RowEvHandlerName="RetetaContinutManevraRowChangeEventHandler" msprop:Generator_RowDeletedName="RetetaContinutManevraRowDeleted" msprop:Generator_RowDeletingName="RetetaContinutManevraRowDeleting" msprop:Generator_RowEvArgName="RetetaContinutManevraRowChangeEvent" msprop:Generator_TablePropName="RetetaContinutManevra" msprop:Generator_RowChangedName="RetetaContinutManevraRowChanged" msprop:Generator_UserTableName="RetetaContinutManevra" msprop:Generator_RowChangingName="RetetaContinutManevraRowChanging" msprop:Generator_RowClassName="RetetaContinutManevraRow" msprop:Generator_TableClassName="RetetaContinutManevraDataTable" msprop:Generator_TableVarName="tableRetetaContinutManevra">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="CrtMed" msprop:Generator_ColumnPropNameInTable="CrtMedColumn" msprop:Generator_ColumnPropNameInRow="CrtMed" msprop:Generator_UserColumnName="CrtMed" msprop:Generator_ColumnVarNameInTable="columnCrtMed" type="xs:short" minOccurs="0" />
+              <xs:element name="DMedicament" msprop:Generator_ColumnPropNameInTable="DMedicamentColumn" msprop:Generator_ColumnPropNameInRow="DMedicament" msprop:Generator_UserColumnName="DMedicament" msprop:Generator_ColumnVarNameInTable="columnDMedicament" type="xs:string" minOccurs="0" />
+              <xs:element name="UM" msprop:Generator_ColumnPropNameInTable="UMColumn" msprop:Generator_ColumnPropNameInRow="UM" msprop:Generator_UserColumnName="UM" msprop:Generator_ColumnVarNameInTable="columnUM" type="xs:string" minOccurs="0" />
+              <xs:element name="PretVanzare" msprop:Generator_ColumnPropNameInTable="PretVanzareColumn" msprop:Generator_ColumnPropNameInRow="PretVanzare" msprop:Generator_UserColumnName="PretVanzare" msprop:Generator_ColumnVarNameInTable="columnPretVanzare" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Cantitate" msprop:Generator_ColumnPropNameInTable="CantitateColumn" msprop:Generator_ColumnPropNameInRow="Cantitate" msprop:Generator_UserColumnName="Cantitate" msprop:Generator_ColumnVarNameInTable="columnCantitate" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Valoare" msdata:ReadOnly="true" msdata:Expression="PretVanzare*Cantitate" msprop:Generator_ColumnPropNameInTable="ValoareColumn" msprop:Generator_ColumnPropNameInRow="Valoare" msprop:Generator_UserColumnName="Valoare" msprop:Generator_ColumnVarNameInTable="columnValoare" type="xs:decimal" minOccurs="0" />
+              <xs:element name="IdMedicament" msprop:Generator_ColumnPropNameInTable="IdMedicamentColumn" msprop:Generator_ColumnPropNameInRow="IdMedicament" msprop:Generator_UserColumnName="IdMedicament" msprop:Generator_ColumnVarNameInTable="columnIdMedicament" type="xs:int" minOccurs="0" />
+              <xs:element name="SpPoza" msprop:Generator_ColumnPropNameInTable="SpPozaColumn" msprop:Generator_ColumnPropNameInRow="SpPoza" msprop:Generator_UserColumnName="SpPoza" msprop:Generator_ColumnVarNameInTable="columnSpPoza" type="xs:string" minOccurs="0" />
+              <xs:element name="Alergii" msprop:Generator_ColumnPropNameInTable="AlergiiColumn" msprop:Generator_ColumnPropNameInRow="Alergii" msprop:Generator_UserColumnName="Alergii" msprop:Generator_ColumnVarNameInTable="columnAlergii" type="xs:string" minOccurs="0" />
+              <xs:element name="Diagnostic" msprop:Generator_ColumnPropNameInTable="DiagnosticColumn" msprop:Generator_ColumnPropNameInRow="Diagnostic" msprop:Generator_UserColumnName="Diagnostic" msprop:Generator_ColumnVarNameInTable="columnDiagnostic" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Istoric" msprop:Generator_RowEvHandlerName="IstoricRowChangeEventHandler" msprop:Generator_RowDeletedName="IstoricRowDeleted" msprop:Generator_RowDeletingName="IstoricRowDeleting" msprop:Generator_RowEvArgName="IstoricRowChangeEvent" msprop:Generator_TablePropName="Istoric" msprop:Generator_RowChangedName="IstoricRowChanged" msprop:Generator_UserTableName="Istoric" msprop:Generator_RowChangingName="IstoricRowChanging" msprop:Generator_RowClassName="IstoricRow" msprop:Generator_TableClassName="IstoricDataTable" msprop:Generator_TableVarName="tableIstoric">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="NumePacient" msprop:Generator_ColumnPropNameInTable="NumePacientColumn" msprop:Generator_ColumnPropNameInRow="NumePacient" msprop:Generator_UserColumnName="NumePacient" msprop:Generator_ColumnVarNameInTable="columnNumePacient" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="NumeBoala" msprop:Generator_ColumnPropNameInTable="NumeBoalaColumn" msprop:Generator_ColumnPropNameInRow="NumeBoala" msprop:Generator_UserColumnName="NumeBoala" msprop:Generator_ColumnVarNameInTable="columnNumeBoala" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DataDiagnostic" msprop:Generator_ColumnPropNameInTable="DataDiagnosticColumn" msprop:Generator_ColumnPropNameInRow="DataDiagnostic" msprop:Generator_UserColumnName="DataDiagnostic" msprop:Generator_ColumnVarNameInTable="columnDataDiagnostic" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Alergii" msprop:Generator_RowEvHandlerName="AlergiiRowChangeEventHandler" msprop:Generator_RowDeletedName="AlergiiRowDeleted" msprop:Generator_RowDeletingName="AlergiiRowDeleting" msprop:Generator_RowEvArgName="AlergiiRowChangeEvent" msprop:Generator_TablePropName="Alergii" msprop:Generator_RowChangedName="AlergiiRowChanged" msprop:Generator_UserTableName="Alergii" msprop:Generator_RowChangingName="AlergiiRowChanging" msprop:Generator_RowClassName="AlergiiRow" msprop:Generator_TableClassName="AlergiiDataTable" msprop:Generator_TableVarName="tableAlergii">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IdAlergie" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnPropNameInTable="IdAlergieColumn" msprop:Generator_ColumnPropNameInRow="IdAlergie" msprop:Generator_UserColumnName="IdAlergie" msprop:Generator_ColumnVarNameInTable="columnIdAlergie" type="xs:int" />
+              <xs:element name="Alergen" msprop:Generator_ColumnPropNameInTable="AlergenColumn" msprop:Generator_ColumnPropNameInRow="Alergen" msprop:Generator_UserColumnName="Alergen" msprop:Generator_ColumnVarNameInTable="columnAlergen" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Medicamente" msprop:Generator_RowEvHandlerName="MedicamenteRowChangeEventHandler" msprop:Generator_RowDeletedName="MedicamenteRowDeleted" msprop:Generator_RowDeletingName="MedicamenteRowDeleting" msprop:Generator_RowEvArgName="MedicamenteRowChangeEvent" msprop:Generator_TablePropName="Medicamente" msprop:Generator_RowChangedName="MedicamenteRowChanged" msprop:Generator_UserTableName="Medicamente" msprop:Generator_RowChangingName="MedicamenteRowChanging" msprop:Generator_RowClassName="MedicamenteRow" msprop:Generator_TableClassName="MedicamenteDataTable" msprop:Generator_TableVarName="tableMedicamente">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="IDMedicament" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnPropNameInTable="IDMedicamentColumn" msprop:Generator_ColumnPropNameInRow="IDMedicament" msprop:Generator_UserColumnName="IDMedicament" msprop:Generator_ColumnVarNameInTable="columnIDMedicament" type="xs:int" />
+              <xs:element name="Denumire" msprop:Generator_ColumnPropNameInTable="DenumireColumn" msprop:Generator_ColumnPropNameInRow="Denumire" msprop:Generator_UserColumnName="Denumire" msprop:Generator_ColumnVarNameInTable="columnDenumire" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="UM" msprop:Generator_ColumnPropNameInTable="UMColumn" msprop:Generator_ColumnPropNameInRow="UM" msprop:Generator_UserColumnName="UM" msprop:Generator_ColumnVarNameInTable="columnUM" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Pret" msprop:Generator_ColumnPropNameInTable="PretColumn" msprop:Generator_ColumnPropNameInRow="Pret" msprop:Generator_UserColumnName="Pret" msprop:Generator_ColumnVarNameInTable="columnPret" type="xs:decimal" minOccurs="0" />
+              <xs:element name="SpPoza" msprop:Generator_ColumnPropNameInTable="SpPozaColumn" msprop:Generator_ColumnPropNameInRow="SpPoza" msprop:Generator_UserColumnName="SpPoza" msprop:Generator_ColumnVarNameInTable="columnSpPoza" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="255" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Pacienti" />
+      <xs:field xpath="mstns:IdPacient" />
+    </xs:unique>
+    <xs:unique name="Retete_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Retete" />
+      <xs:field xpath="mstns:IdReteta" />
+    </xs:unique>
+    <xs:unique name="RetetaContinut_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:RetetaContinut" />
+      <xs:field xpath="mstns:CrtMed" />
+      <xs:field xpath="mstns:IdReteta" />
+    </xs:unique>
+    <xs:unique name="Alergii_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Alergii" />
+      <xs:field xpath="mstns:IdAlergie" />
+    </xs:unique>
+    <xs:unique name="Medicamente_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Medicamente" />
+      <xs:field xpath="mstns:IDMedicament" />
+    </xs:unique>
+  </xs:element>
+</xs:schema>
